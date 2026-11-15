@@ -20,9 +20,9 @@ zone "ukom12tkja-3.sch.id" {
     file "/etc/bind/db.ukom12tkja-3";
 };
 
-zone "3.10.10.in-addr.arpa" {
+zone "3.100.100.in-addr.arpa" {
     type master;
-    file "/etc/bind/db.10.10.3";
+    file "/etc/bind/db.100.100.3";
 };
 ```
 
@@ -58,8 +58,8 @@ $TTL 604800
 )
 
 @       IN  NS  ukom12tkja-3.sch.id.
-@       IN  A   10.10.3.3
-www     IN  A   10.10.3.3
+@       IN  A   100.100.3.3
+www     IN  A   100.100.3.3
 ```
 
 **Penjelasan:**
@@ -73,7 +73,7 @@ Forward Zone menghubungkan nama domain dengan alamat IP DNS Server.
 - `www` merupakan subdomain yang dapat diakses melalui `www.ukom12tkja-3.sch.id`.
 - Serial `2026111201` merupakan nomor versi zona. Setiap kali mengubah isi file zona, naikkan serialnya.
 
-Dengan konfigurasi tersebut, domain utama dan subdomain `www` diarahkan ke IP `10.10.3.3`.
+Dengan konfigurasi tersebut, domain utama dan subdomain `www` diarahkan ke IP `100.100.3.3`.
 
 Simpan perubahan dengan `CTRL + O`, Enter, kemudian `CTRL + X`.
 
@@ -82,7 +82,7 @@ Simpan perubahan dengan `CTRL + O`, Enter, kemudian `CTRL + X`.
 Buka file Reverse Zone:
 
 ```bash
-sudo nano /etc/bind/db.10.10.3
+sudo nano /etc/bind/db.100.100.3
 ```
 
 Sesuaikan konfigurasi menjadi:
@@ -105,15 +105,15 @@ $TTL 604800
 
 Reverse Zone digunakan untuk menerjemahkan IP Address menjadi nama domain melalui PTR Record.
 
-Pada konfigurasi tersebut, angka `3` merupakan oktet terakhir dari IP `10.10.3.3`. Sementara itu, nama zona `3.10.10.in-addr.arpa` mewakili tiga oktet sebelumnya.
+Pada konfigurasi tersebut, angka `3` merupakan oktet terakhir dari IP `100.100.3.3`. Sementara itu, nama zona `3.100.100.in-addr.arpa` mewakili tiga oktet sebelumnya.
 
 Jika digabungkan, alamat Reverse DNS menjadi:
 
 ```text
-3.3.10.10.in-addr.arpa
+3.100.100.in-addr.arpa
 ```
 
-PTR Record tersebut akan mengarahkan IP `10.10.3.3` ke nama `ukom12tkja-3.sch.id`.
+PTR Record tersebut akan mengarahkan IP `100.100.3.3` ke nama `ukom12tkja-3.sch.id`.
 
 Simpan perubahan dengan `CTRL + O`, Enter, kemudian `CTRL + X`.
 
@@ -147,13 +147,13 @@ OK
 **C. Memeriksa Reverse Zone**
 
 ```bash
-sudo named-checkzone 3.10.10.in-addr.arpa /etc/bind/db.10.10.3
+sudo named-checkzone 3.100.100.in-addr.arpa /etc/bind/db.100.100.3
 ```
 
 Hasil yang diharapkan:
 
 ```text
-zone 3.10.10.in-addr.arpa/IN: loaded serial 2026111201
+zone 3.100.100.in-addr.arpa/IN: loaded serial 2026111201
 OK
 ```
 
@@ -202,14 +202,14 @@ Pada bagian DNS, pilih `Use the following DNS server addresses`, kemudian masukk
 
 | Kolom | Alamat |
 |---|---|
-| Preferred DNS server | `10.10.3.3` |
+| Preferred DNS server | `100.100.3.2` |
 | Alternate DNS server | Kosongkan dahulu |
 
 Klik OK, kemudian Close.
 
 **Penjelasan:**
 
-Pengaturan ini bertujuan agar laptop menggunakan DNS Server `10.10.3.3` ketika melakukan permintaan penerjemahan nama domain. Pastikan IP laptop berada pada jaringan yang dapat menjangkau DNS Server tersebut.
+Pengaturan ini bertujuan agar laptop menggunakan DNS Server `100.100.3.2` ketika melakukan permintaan penerjemahan nama domain. Pastikan IP laptop berada pada jaringan yang dapat menjangkau DNS Server tersebut.
 
 ## STEP 7 – Membersihkan Cache DNS Windows
 
@@ -230,7 +230,7 @@ ipconfig /all
 Cari adapter yang sedang digunakan dan pastikan bagian DNS Servers menunjukkan:
 
 ```text
-DNS Servers . . . . . . . . . . : 10.10.3.3
+DNS Servers . . . . . . . . . . : 100.100.3.2
 ```
 
 Jika alamat tersebut sudah muncul, berarti laptop telah menggunakan DNS Server yang ditentukan.
@@ -242,7 +242,7 @@ Setelah seluruh konfigurasi selesai, lakukan pengujian menggunakan `nslookup`.
 **A. Pengujian dengan menentukan IP DNS Server**
 
 ```cmd
-nslookup ukom12tkja-3.sch.id 10.10.3.3
+nslookup ukom12tkja-3.sch.id 100.100.3.2
 ```
 
 Pengujian ini digunakan untuk memastikan DNS Server dapat memberikan jawaban terhadap permintaan domain.
@@ -269,7 +269,7 @@ Bagian ini digunakan apabila hasil pengujian masih belum sesuai atau muncul pesa
 
 ```text
 Server: Unknown
-Address: 10.10.3.3
+Address: 100.100.3.2
 ```
 
 **Kemungkinan penyebab:**
@@ -283,13 +283,13 @@ Address: 10.10.3.3
 Periksa Reverse Zone:
 
 ```bash
-sudo named-checkzone 3.10.10.in-addr.arpa /etc/bind/db.10.10.3
+sudo named-checkzone 3.100.100.in-addr.arpa /etc/bind/db.100.100.3
 ```
 
 Kemudian lakukan pengujian:
 
 ```bash
-dig @127.0.0.1 -x 10.10.3.3
+dig @127.0.0.1 -x 100.100.3.2
 ```
 
 Pastikan hasil PTR mengarah ke:
@@ -301,7 +301,7 @@ ukom12tkja-3.sch.id.
 Jika belum sesuai, buka kembali file Reverse Zone:
 
 ```bash
-sudo nano /etc/bind/db.10.10.3
+sudo nano /etc/bind/db.100.100.3
 ```
 
 Pastikan terdapat konfigurasi:
@@ -323,7 +323,7 @@ Forward DNS dapat menerjemahkan domain menjadi IP Address, tetapi nama DNS Serve
 Jalankan perintah berikut pada Windows CMD:
 
 ```cmd
-nslookup -type=PTR 3.3.10.10.in-addr.arpa 10.10.3.3
+nslookup -type=PTR 2.3.100.100.in-addr.arpa 100.100.3.2
 ```
 
 Perintah ini digunakan untuk meminta informasi PTR Record secara langsung kepada DNS Server.
@@ -363,7 +363,7 @@ sudo ss -tulpn | grep ':53'
 Periksa koneksi dari Windows:
 
 ```cmd
-ping 10.10.3.3
+ping 100.100.3.2
 ```
 
 Jika layanan tidak berjalan, periksa pesan kesalahan sebelum melakukan perbaikan.
@@ -387,7 +387,7 @@ Cari bagian DNS Servers pada adapter jaringan yang sedang digunakan.
 Pastikan alamat DNS yang muncul adalah:
 
 ```text
-10.10.3.3
+100.100.3.2
 ```
 
 Jika belum sesuai, periksa kembali pengaturan IPv4 pada adapter jaringan Windows. Jika DNS diperoleh melalui DHCP, pastikan DHCP tidak memberikan DNS Server lain.
@@ -417,7 +417,7 @@ sudo named-checkzone ukom12tkja-3.sch.id /etc/bind/db.ukom12tkja-3
 Periksa Reverse Zone:
 
 ```bash
-sudo named-checkzone 3.10.10.in-addr.arpa /etc/bind/db.10.10.3
+sudo named-checkzone 3.100.100.in-addr.arpa /etc/bind/db.100.100.3
 ```
 
 Jika ditemukan kesalahan, perbaiki file konfigurasi yang bermasalah.
@@ -469,8 +469,8 @@ sudo ufw status
 Jika UFW aktif dan belum mengizinkan DNS dari jaringan lab, tambahkan aturan:
 
 ```bash
-sudo ufw allow from 10.10.3.0/28 to any port 53 proto udp
-sudo ufw allow from 10.10.3.0/28 to any port 53 proto tcp
+sudo ufw allow from 100.100.3.0/28 to any port 53 proto udp
+sudo ufw allow from 100.100.3.0/28 to any port 53 proto tcp
 ```
 
 Setelah itu, lakukan pengujian kembali dari laptop.
@@ -483,14 +483,14 @@ Sebelum menyatakan konfigurasi berhasil, pastikan seluruh poin berikut telah ter
 
 - [ ] Forward Zone sudah terdaftar pada `named.conf.local`.
 - [ ] Reverse Zone sudah terdaftar pada `named.conf.local`.
-- [ ] A Record mengarah ke IP `10.10.3.3`.
+- [ ] A Record mengarah ke IP `100.100.3.2`.
 - [ ] PTR Record mengarah ke `ukom12tkja-3.sch.id`.
 - [ ] `named-checkconf` tidak menghasilkan error.
 - [ ] Pemeriksaan Forward Zone menghasilkan `OK`.
 - [ ] Pemeriksaan Reverse Zone menghasilkan `OK`.
 - [ ] Layanan BIND9 berstatus `active (running)`.
-- [ ] Laptop dapat menjangkau DNS Server `10.10.3.3`.
-- [ ] DNS Server pada Windows menunjukkan IP `10.10.3.3`.
+- [ ] Laptop dapat menjangkau DNS Server `100.100.3.2`.
+- [ ] DNS Server pada Windows menunjukkan IP `100.100.3.2`.
 - [ ] Pengujian `nslookup` dengan tambahan IP berhasil.
 - [ ] Pengujian `nslookup` tanpa tambahan IP berhasil.
 - [ ] Bagian Server menampilkan nama domain, bukan `Unknown`.

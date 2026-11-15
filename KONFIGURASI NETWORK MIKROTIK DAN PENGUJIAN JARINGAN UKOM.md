@@ -54,7 +54,7 @@ Sebelum melakukan konfigurasi MikroTik, laptop harus memiliki IP Address yang sa
 
 | Pengaturan | Nilai |
 |:---|:---|
-| IP Address | `192.168.88.3` |
+| IP Address | `192.168.88.2` |
 | Subnet Mask | `255.255.255.0` |
 | Default Gateway | Kosong |
 | DNS Server | Kosong |

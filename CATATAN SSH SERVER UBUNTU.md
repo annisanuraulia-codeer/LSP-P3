@@ -1,6 +1,6 @@
 # CATATAN SSH SERVER UBUNTU
 
-SSH (Secure Shell) merupakan protokol jaringan yang digunakan untuk mengakses dan mengelola server dari komputer lain secara jarak jauh melalui koneksi yang aman. Pada konfigurasi ini, saya menggunakan Ubuntu Server sebagai SSH Server dengan alamat IP `10.10.1.2` dan Windows sebagai client untuk melakukan pengujian koneksi SSH.
+SSH (Secure Shell) merupakan protokol jaringan yang digunakan untuk mengakses dan mengelola server dari komputer lain secara jarak jauh melalui koneksi yang aman. Pada konfigurasi ini, saya menggunakan Ubuntu Server sebagai SSH Server dengan alamat IP `100.100.3.2` dan Windows sebagai client untuk melakukan pengujian koneksi SSH.
 
 ## A. KONFIGURASI DI UBUNTU SERVER
 
@@ -12,7 +12,7 @@ Langkah pertama adalah memeriksa alamat IP Ubuntu Server dengan menjalankan peri
 ip a
 ```
 
-Perintah ini digunakan untuk melihat informasi interface jaringan dan memastikan Ubuntu Server menggunakan alamat IP `10.10.1.2`.
+Perintah ini digunakan untuk melihat informasi interface jaringan dan memastikan Ubuntu Server menggunakan alamat IP `100.100.3.2`.
 
 ### 2. Memperbarui Daftar Paket
 
@@ -102,17 +102,17 @@ Setelah konfigurasi di Ubuntu selesai, buka Command Prompt (CMD) pada komputer W
 Sebelum melakukan SSH, periksa terlebih dahulu koneksi antara Windows dan Ubuntu dengan menjalankan perintah:
 
 ```cmd
-ping 10.10.1.2
+ping 100.100.3.2
 ```
 
-Perintah ini digunakan untuk memastikan komputer Windows dapat menjangkau alamat IP Ubuntu Server. Jika muncul balasan `Reply from 10.10.1.2`, berarti koneksi jaringan antara kedua perangkat berhasil.
+Perintah ini digunakan untuk memastikan komputer Windows dapat menjangkau alamat IP Ubuntu Server. Jika muncul balasan `Reply from 100.100.3.2`, berarti koneksi jaringan antara kedua perangkat berhasil.
 
 ### 11. Menghapus Host Key Lama
 
 Jika sebelumnya pernah melakukan koneksi SSH dan muncul pesan `Host key verification failed`, jalankan perintah berikut pada CMD:
 
 ```cmd
-ssh-keygen -R 10.10.1.2
+ssh-keygen -R 100.100.3.2
 ```
 
 Perintah ini digunakan untuk menghapus catatan Host Key lama yang tersimpan di Windows. Langkah ini diperlukan apabila identitas Host Key Ubuntu berubah sehingga tidak cocok dengan catatan yang tersimpan pada komputer client.
@@ -122,10 +122,10 @@ Perintah ini digunakan untuk menghapus catatan Host Key lama yang tersimpan di W
 Selanjutnya, lakukan koneksi SSH dengan menjalankan perintah:
 
 ```cmd
-ssh nisa@10.10.1.2
+ssh nisa@100.100.3.2
 ```
 
-Perintah tersebut digunakan untuk menghubungkan komputer Windows ke Ubuntu Server menggunakan username `nisa` dan alamat IP `10.10.1.2`. Sesuaikan username dengan akun yang digunakan pada Ubuntu Server.
+Perintah tersebut digunakan untuk menghubungkan komputer Windows ke Ubuntu Server menggunakan username `nisa` dan alamat IP `100.100.3.2`. Sesuaikan username dengan akun yang digunakan pada Ubuntu Server.
 
 ### 13. Mengonfirmasi Host Key Baru
 

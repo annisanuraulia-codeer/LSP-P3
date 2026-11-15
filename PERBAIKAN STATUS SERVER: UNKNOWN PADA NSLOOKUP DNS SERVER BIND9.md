@@ -477,6 +477,15 @@ Setelah itu, lakukan pengujian kembali dari laptop.
 
 ---
 
+## JIKA DNS NYA TIDAK NYAMBUNG SAAT DI PING ATAU DIG 
+
+masuk ke directory berikut: 
+
+```bash
+sudo nano /etc/resolv.conf
+```
+pada nameservernya ganti dengan ip server '100.100.3.2'
+
 # BAGIAN III – CHECKLIST PENGUJIAN AKHIR
 
 Sebelum menyatakan konfigurasi berhasil, pastikan seluruh poin berikut telah terpenuhi:

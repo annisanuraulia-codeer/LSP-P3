@@ -26,7 +26,7 @@ Tambahkan konfigurasi berikut di bagian paling bawah file:
 ```conf
 zone "ukom12tkj-3.sch.id" {
     type master;
-    file "/etc/bind/db.ukomtkj-3";
+    file "/etc/bind/db.ukom12tkj-3";
 };
 
 zone "3.100.100.in-addr.arpa" {
@@ -48,13 +48,13 @@ Simpan file dengan menekan `Ctrl + O`, lalu `Enter`, kemudian keluar menggunakan
 Salin file zona bawaan sebagai template:
 
 ```bash
-sudo cp /etc/bind/db.local /etc/bind/db.ukomtkj-3
+sudo cp /etc/bind/db.local /etc/bind/db.ukom12tkj-3
 ```
 
 Kemudian buka file zona yang sudah dibuat:
 
 ```bash
-sudo nano /etc/bind/db.ukomtkj-3
+sudo nano /etc/bind/db.ukom12tkj-3
 ```
 
 Sesuaikan isinya menjadi seperti berikut:
@@ -219,7 +219,7 @@ sudo named-checkconf
 Jika tidak muncul pesan kesalahan, lanjutkan dengan memeriksa file zona Forward:
 
 ```bash
-sudo named-checkzone ukom12tkj-3.sch.id /etc/bind/db.ukomtkj-3
+sudo named-checkzone ukom12tkj-3.sch.id /etc/bind/db.ukom12tkj-3
 ```
 
 Kemudian periksa file zona Reverse:
